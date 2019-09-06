@@ -63,7 +63,7 @@ public class PID_System {
       Intergral = Intergral + Error;
       Derivative = Error - Previous_Error;
       Previous_Error = Error;
-      return Kp * Error + Ki * Intergral + Kd*Derivative;
+      return Kp * Error + Ki * Intergral + Kd * Derivative;
     }else{
       return 0;
     }
