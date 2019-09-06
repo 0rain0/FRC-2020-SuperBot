@@ -53,7 +53,8 @@ public class PID_System {
     }
   }
 
-  public void Enable_TimeOut(boolean TrueFalse){
+  public void Enable_TimeOut(boolean TrueFalse, double TimeOut){
+    TimeOut_Time = TimeOut;
     Enable_TimeOut = TrueFalse;
   }
 
