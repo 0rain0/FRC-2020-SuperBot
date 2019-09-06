@@ -1,6 +1,6 @@
 package frc.robot;
 
-public class Useful {
+public class Utility {
   public static double Constrain(double Value,double max,double min){
     if(Value > max){
       Value = max;

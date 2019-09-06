@@ -25,9 +25,6 @@ public class Basic_OmniDrive extends Command {
       Joystick_X = Joystick_X * -1;
     }
 
-    Joystick_X = Joystick_X / Math.sqrt(2);
-    Joystick_Y = Joystick_Y / Math.sqrt(2);
-
     //https://www.desmos.com/calculator/epgkans3c0
     if(Joystick_Y > 0 && Joystick_Y < 1){
       Joystick_Y = RobotMap.Joystick_Y_OutPutRate * Math.pow(Math.abs(Joystick_Y),RobotMap.Joystick_Y_Exponential);
@@ -40,6 +37,9 @@ public class Basic_OmniDrive extends Command {
       Joystick_X = RobotMap.Joystick_X_OutPutRate * -Math.pow(Math.abs(Joystick_X),RobotMap.Joystick_X_Exponential);
     }
 
+    Joystick_X = Joystick_X / Math.sqrt(2);
+    Joystick_Y = Joystick_Y / Math.sqrt(2);
+
     double Vector = Math.sqrt(Math.pow(Joystick_Y,2) + Math.pow(Joystick_X, 2));
     double Angle = Math.atan2(Joystick_Y,Joystick_X);
 
@@ -48,8 +48,13 @@ public class Basic_OmniDrive extends Command {
     double RB = Math.sin(Angle - (Math.PI*5/4)) * Vector;
     double LB = Math.sin(Angle - (Math.PI*7/4)) * Vector;
 
+    System.out.println("LF:"+ LF + "  RF:" + RF);
+    System.out.println("LB:"+ LB + "  RB:" + RB);
+    System.out.println();
+
     //Robot.m_Chassis.SetSpeed(LF, RF, RB, LB);
     //HelloWorld :D 101Test
+    //LOLLQQQ
   }
 
   @Override

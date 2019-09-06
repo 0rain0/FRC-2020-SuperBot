@@ -3,7 +3,7 @@ package frc.robot.commands.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.Useful;
+import frc.robot.Utility;
 
 public class Basic_ArcadeDrive extends Command {
   public Basic_ArcadeDrive() {
@@ -41,8 +41,8 @@ public class Basic_ArcadeDrive extends Command {
     double Rspd = Joystick_Y - Joystick_X;
     double Lspd = Joystick_Y + Joystick_X;
 
-    Rspd = Useful.Constrain(Rspd,1,-1);
-    Lspd = Useful.Constrain(Lspd,1,-1);
+    Rspd = Utility.Constrain(Rspd,1,-1);
+    Lspd = Utility.Constrain(Lspd,1,-1);
     Robot.m_Chassis.SetSpeed(Lspd,Rspd);
   }
 

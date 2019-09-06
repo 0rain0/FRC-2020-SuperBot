@@ -43,7 +43,7 @@ public class OI {
   */
   
   public void SetRumble(double Intensity){
-    Intensity = Useful.Constrain(Intensity, 1, 0);
+    Intensity = Utility.Constrain(Intensity, 1, 0);
     Controller.setRumble(RumbleType.kLeftRumble, Intensity);
     Controller.setRumble(RumbleType.kRightRumble, Intensity);
   }
