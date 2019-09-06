@@ -6,21 +6,29 @@ import edu.wpi.first.wpilibj.Timer;
 //// Still Testing ////
 public class PID_System {
   private Timer AutoStop_Timer;
+  private Timer TimeOut_Timer;
 
   PID_System(){
     AutoStop_Timer = new Timer();
     AutoStop_Timer.reset();
     AutoStop_Timer.start();
+
+    TimeOut_Timer = new Timer();
+    TimeOut_Timer.reset();
+    TimeOut_Timer.start();
   }
 
   private boolean Enable_PID = true;
   private boolean Enable_AntiWindUp = false;
   private boolean Enable_AutoStop = false;
+  private boolean Enable_TimeOut = false;
 
   private byte AutoStop_Status = 0;
   private double AutoStop_SteadyRange = 0;
   private double AutoStop_SteadyTime = 0;
   private double AutoStop_PrviousTime = 0;
+
+  private double TimeOut_Time = 0;
 
   public void Enable_PID(boolean TrueFalse){
     Enable_PID = TrueFalse;
@@ -43,6 +51,10 @@ public class PID_System {
     }else{
       Enable_AutoStop = false;
     }
+  }
+
+  public void Enable_TimeOut(boolean TrueFalse){
+    Enable_TimeOut = TrueFalse;
   }
 
   private double Error = 0;
@@ -93,6 +105,11 @@ public class PID_System {
         AutoStop_PrviousTime = Now_Time;
       }else if(AutoStop_Status == 1 && Now_Steady_Finished){
         AutoStop_Status = 0;
+        return true;
+      }
+    }
+    if(Enable_TimeOut){
+      if(TimeOut_Timer.get() > TimeOut_Time){
         return true;
       }
     }
