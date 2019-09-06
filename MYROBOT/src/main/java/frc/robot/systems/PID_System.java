@@ -28,7 +28,7 @@ public class PID_System {
   private double AutoStop_SteadyTime = 0;
   private double AutoStop_PrviousTime = 0;
 
-  private double TimeOut_Time = 0;
+  private double TimeOut = 0;
 
   public void Enable_PID(boolean TrueFalse){
     Enable_PID = TrueFalse;
@@ -54,7 +54,7 @@ public class PID_System {
   }
 
   public void Enable_TimeOut(boolean TrueFalse, double TimeOut){
-    TimeOut_Time = TimeOut;
+    this.TimeOut = TimeOut;
     Enable_TimeOut = TrueFalse;
   }
 
@@ -110,7 +110,7 @@ public class PID_System {
       }
     }
     if(Enable_TimeOut){
-      if(TimeOut_Timer.get() > TimeOut_Time){
+      if(TimeOut_Timer.get() > TimeOut){
         return true;
       }
     }
