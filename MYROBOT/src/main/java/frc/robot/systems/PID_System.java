@@ -1,15 +1,26 @@
 package frc.robot.systems;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 
 //// Still Testing ////
 public class PID_System {
+  private Timer AutoStop_Timer;
+
+  PID_System(){
+    AutoStop_Timer = new Timer();
+    AutoStop_Timer.reset();
+    AutoStop_Timer.start();
+  }
+
   private boolean Enable_PID = true;
   private boolean Enable_AntiWindUp = false;
   private boolean Enable_AutoStop = false;
 
+  private byte AutoStop_Status = 0;
   private double AutoStop_SteadyRange = 0;
   private double AutoStop_SteadyTime = 0;
+  private double AutoStop_PrviousTime = 0;
 
   public void Enable_PID(boolean TrueFalse){
     Enable_PID = TrueFalse;
@@ -72,12 +83,20 @@ public class PID_System {
   
   public boolean PID_Finished(){
     if(Enable_AutoStop){
-      boolean Steady = (Error > -AutoStop_SteadyRange && Error < AutoStop_SteadyRange);
-      //double Steady_Countdown = ()
-      return false;
-    }else{
-      return false;
+      double Now_Time = AutoStop_Timer.get();
+      boolean Now_Steady = ((Error > -AutoStop_SteadyRange) && (Error < AutoStop_SteadyRange));
+      boolean Now_Steady_Finished = ((Now_Time - AutoStop_PrviousTime) > AutoStop_SteadyTime);
+      if(!Now_Steady){
+        AutoStop_Status = 0;
+      }else if(AutoStop_Status == 0 && Now_Steady){
+        AutoStop_Status = 1;
+        AutoStop_PrviousTime = Now_Time;
+      }else if(AutoStop_Status == 1 && Now_Steady_Finished){
+        AutoStop_Status = 0;
+        return true;
+      }
     }
+    return false;
   }
 
 
