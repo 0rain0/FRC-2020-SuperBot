@@ -1,23 +1,15 @@
 package frc.robot.systems;
 
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
-//// Still Testing ////
 public class PID_System {
   private Timer AutoStop_Timer;
   private Timer System_Timer;
 
   PID_System(){
     AutoStop_Timer = new Timer();
-    AutoStop_Timer.reset();
-    AutoStop_Timer.start();
-
     System_Timer = new Timer();
-    System_Timer.reset();
-    System_Timer.start();
-    SystemTime_Previous = System_Timer.get();
   }
 
   private boolean Enable_PID = true;
@@ -35,11 +27,30 @@ public class PID_System {
   private double SystemTime_Previous = 0;
   private double SystemTime_Timeout = 0;
 
-  /*
+  private double Error = 0;
+  private double Previous_Error = 0;
+  private double SetPoint = 0;
+  private double Intergral = 0;
+  private double Derivative = 0;
+
+  
   public void Init(){
     Enable_PID = true;
-    Enable_Anti_WindUp = false;
-    Enable_Auto_Quit = false;
+    Enable_AntiWindUp = false;
+    Enable_AutoStop = false;
+    AutoStop_Status = 0;
+    AutoStop_SteadyRange = 0;
+    AutoStop_SteadyTime = 0;
+    AutoStop_PrviousTime = 0;
+    AntiWindUp_ClampingLimit = 0;
+    SystemTime_Previous = 0;
+    SystemTime_Timeout = 0;
+
+    AutoStop_Timer.reset();
+    AutoStop_Timer.start();
+    System_Timer.reset();
+    System_Timer.start();
+    SystemTime_Previous = System_Timer.get();
   }
   
   public void Init_Parameter(){
@@ -49,7 +60,7 @@ public class PID_System {
     Intergral = 0;
     Derivative = 0;
   }
-  */
+  
 
   public void Enable_PID(boolean TrueFalse){
     Enable_PID = TrueFalse;
@@ -97,12 +108,6 @@ public class PID_System {
       Enable_TimeOut = false;
     }
   }
-
-  private double Error = 0;
-  private double Previous_Error = 0;
-  private double SetPoint = 0;
-  private double Intergral = 0;
-  private double Derivative = 0;
   
   public double PID(double Value, double Kp, double Ki, double Kd){
     if(Enable_PID){
@@ -146,5 +151,9 @@ public class PID_System {
       }
     }
     return false;
+  }
+
+  public double Get_SystemTime(){
+    return System_Timer.get() - SystemTime_Previous;
   }
 }
