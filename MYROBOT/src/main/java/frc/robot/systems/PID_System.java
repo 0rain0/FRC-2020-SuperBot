@@ -7,7 +7,7 @@ public class PID_System {
   private Timer AutoStop_Timer;
   private Timer System_Timer;
 
-  PID_System(){
+  public PID_System(){
     AutoStop_Timer = new Timer();
     System_Timer = new Timer();
   }
@@ -23,8 +23,6 @@ public class PID_System {
   private double AutoStop_PrviousTime = 0;
 
   private double AntiWindUp_ClampingLimit = 0;
-
-  private double SystemTime_Previous = 0;
   private double SystemTime_Timeout = 0;
 
   private double Error = 0;
@@ -43,14 +41,12 @@ public class PID_System {
     AutoStop_SteadyTime = 0;
     AutoStop_PrviousTime = 0;
     AntiWindUp_ClampingLimit = 0;
-    SystemTime_Previous = 0;
     SystemTime_Timeout = 0;
 
     AutoStop_Timer.reset();
     AutoStop_Timer.start();
     System_Timer.reset();
     System_Timer.start();
-    SystemTime_Previous = System_Timer.get();
   }
   
   public void Init_Parameter(){
@@ -67,10 +63,10 @@ public class PID_System {
   }
 
   public void Enable_AntiWindUp(boolean TrueFalse,double ClampingLimit){
-    if(TrueFalse = true){
+    if(TrueFalse == true){
       AntiWindUp_ClampingLimit = ClampingLimit;
       if(AntiWindUp_ClampingLimit <= 0){
-        DriverStation.reportError("PID_System:AntiWindup Parameter Cannot Be 0 or Smaller", true);
+        DriverStation.reportError("PID_System:AntiWindup Parameter Cannot Be 0 or Smaller when true", true);
         Enable_AntiWindUp = false;
       }else{
         Enable_AntiWindUp = true;
@@ -81,11 +77,11 @@ public class PID_System {
   }
 
   public void Enable_AutoStop(boolean TrueFalse,double SteadyRange,double SteadyTime){
-    if(TrueFalse = true){
+    if(TrueFalse == true){
       AutoStop_SteadyRange = SteadyRange;
       AutoStop_SteadyTime = SteadyTime;
       if(AutoStop_SteadyRange <= 0 || AutoStop_SteadyTime <= 0){
-        DriverStation.reportWarning("PID_System:AutoStop Parameter Cannot Be 0 or Smaller", true);
+        DriverStation.reportWarning("PID_System:AutoStop Parameter Cannot Be 0 or Smaller when true", true);
         Enable_AutoStop = false;
       }else{
         Enable_AutoStop = true;
@@ -94,12 +90,11 @@ public class PID_System {
       Enable_AutoStop = false;
     }
   }
-
   public void Enable_TimeOut(boolean TrueFalse, double TimeOut){
-    if(TrueFalse = true){
+    if(TrueFalse == true){
       SystemTime_Timeout = TimeOut;
       if(SystemTime_Timeout <= 0){
-        DriverStation.reportWarning("PID_System:Timeout Parameter Cannot Be 0 or Smaller", true);
+        DriverStation.reportWarning("PID_System:Timeout Parameter Cannot Be 0 or Smaller when true", true);
         Enable_TimeOut = false;
       }else{
         Enable_TimeOut = true;
@@ -146,14 +141,10 @@ public class PID_System {
       }
     }
     if(Enable_TimeOut){
-      if((System_Timer.get() - SystemTime_Previous) > SystemTime_Timeout){
+      if(System_Timer.get() > SystemTime_Timeout){
         return true;
       }
     }
     return false;
-  }
-
-  public double Get_SystemTime(){
-    return System_Timer.get() - SystemTime_Previous;
   }
 }

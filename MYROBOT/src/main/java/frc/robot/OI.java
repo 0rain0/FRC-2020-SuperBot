@@ -1,13 +1,13 @@
 package frc.robot;
 
-//import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 //import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
-  //public JoystickController Controller = new JoystickController(RobotMap.Joystick_Port);
-  private XboxController Controller = new XboxController(RobotMap.Joystick_Port);
+  public Joystick Controller = new Joystick(RobotMap.Joystick_Port);
+  //private XboxController Controller = new XboxController(RobotMap.Joystick_Port);
 
   //private JoystickButton Button_Up = new JoystickButton(Controller, RobotMap.Button_Up);
   //private JoystickButton Button_Down = new JoystickButton(Controller, RobotMap.Button_Down);

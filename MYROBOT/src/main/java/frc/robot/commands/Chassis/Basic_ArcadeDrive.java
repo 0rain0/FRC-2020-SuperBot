@@ -26,6 +26,8 @@ public class Basic_ArcadeDrive extends Command {
       Joystick_X = Joystick_X * -1;
     }
 
+    System.out.println(Joystick_X);
+
     //https://www.desmos.com/calculator/epgkans3c0
     if(Joystick_Y > 0 && Joystick_Y < 1){
       Joystick_Y = RobotMap.Joystick_Y_OutPutRate * Math.pow(Math.abs(Joystick_Y),RobotMap.Joystick_Y_Exponential);
