@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.Chassis;
 
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
+//import edu.wpi.cscore.UsbCamera;
+//import edu.wpi.first.cameraserver.CameraServer;
 
 
 
@@ -16,7 +16,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 
 public class Robot extends TimedRobot {
   //Subsystem Declaration//
-  public static UsbCamera m_Camera;
+  //public static UsbCamera m_Camera;
   public static Chassis m_Chassis = new Chassis();
   public static OI m_Oi = new OI();
   
@@ -31,9 +31,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_Camera = CameraServer.getInstance().startAutomaticCapture(0);
-    m_Camera.setResolution(160, 120);
-    m_Camera.setFPS(20);
+    //m_Camera = CameraServer.getInstance().startAutomaticCapture(0);
+    //m_Camera.setResolution(160, 120);
+    //m_Camera.setFPS(20);
+    Robot.m_Chassis.Init_Gryo();
     
   }
   @Override
