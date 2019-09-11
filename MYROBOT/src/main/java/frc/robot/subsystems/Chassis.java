@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.Chassis.Basic_ArcadeDrive;
+//import frc.robot.commands.Chassis.Basic_ArcadeDrive;
 import frc.robot.commands.Chassis.PID_ArcadeDrive;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -35,6 +35,13 @@ public class Chassis extends Subsystem {
     //Motor_RB.set(Rspd*RobotMap.ChassisPowerPercentage);
     Motor_LF.set(Lspd*RobotMap.ChassisPowerPercentage);
     //Motor_LB.set(Rspd*RobotMap.ChassisPowerPercentage);
+  }
+
+  public void SetSeparateSpeed(double RF,double LF,double LB,double RB){
+    Motor_RF.set(RF*RobotMap.ChassisPowerPercentage);
+    Motor_LF.set(LF*RobotMap.ChassisPowerPercentage);
+    Motor_LB.set(LB*RobotMap.ChassisPowerPercentage);
+    Motor_RB.set(RB*RobotMap.ChassisPowerPercentage);
   }
 
   public void Init_Gryo(){

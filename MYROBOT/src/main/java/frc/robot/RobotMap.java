@@ -14,7 +14,7 @@ public class RobotMap {
   public final static double PIDEnable_Delay = 0.25;
   public final static double Chassis_Kp = 0.008;
   public final static double Chassis_Ki = 0.0;
-  public final static double Chassis_Kd = 0.1;
+  public final static double Chassis_Kd = 0.05;
   
   
   ////Cargo Setting////

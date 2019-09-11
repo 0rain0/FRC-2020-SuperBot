@@ -43,18 +43,16 @@ public class Basic_OmniDrive extends Command {
     double Vector = Math.sqrt(Math.pow(Joystick_Y,2) + Math.pow(Joystick_X, 2));
     double Angle = Math.atan2(Joystick_Y,Joystick_X);
 
-    double LF = Math.sin(Angle - (Math.PI/4)) * Vector;
-    double RF = Math.sin(Angle - (Math.PI*3/4)) * Vector;
-    double RB = Math.sin(Angle - (Math.PI*5/4)) * Vector;
-    double LB = Math.sin(Angle - (Math.PI*7/4)) * Vector;
+    double RF = Math.sin(Angle - (Math.PI/4)) * Vector;
+    double LF = Math.sin(Angle - (Math.PI*3/4)) * Vector;
+    double LB = Math.sin(Angle - (Math.PI*5/4)) * Vector;
+    double RB = Math.sin(Angle - (Math.PI*7/4)) * Vector;
 
-    System.out.println("LF:"+ LF + "  RF:" + RF);
-    System.out.println("LB:"+ LB + "  RB:" + RB);
-    System.out.println();
+    //System.out.println("LF:"+ LF + "  " + "RF:" + RF);
+    //System.out.println("LB:"+ LB + "  " + "RB:" + RB);
+    //System.out.println("////////////////////");
 
-    //Robot.m_Chassis.SetSpeed(LF, RF, RB, LB);
-    //HelloWorld :D 101Test
-    //LOLLQQQ
+    Robot.m_Chassis.SetSeparateSpeed(RF, LF, LB, RB);
   }
 
   @Override
