@@ -9,16 +9,14 @@ import frc.robot.subsystems.Chassis;
 //import edu.wpi.cscore.UsbCamera;
 //import edu.wpi.first.cameraserver.CameraServer;
 
-
-
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
   //Subsystem Declaration//
   //public static UsbCamera m_Camera;
-  public static Chassis m_Chassis = new Chassis();
-  public static OI m_Oi = new OI();
+  public static Chassis m_Chassis;
+  public static OI m_Oi;
   
   Command m_autonomousCommand;
 
@@ -31,6 +29,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    m_Chassis = new Chassis();
+    m_Oi = new OI();
     //m_Camera = CameraServer.getInstance().startAutomaticCapture(0);
     //m_Camera.setResolution(160, 120);
     //m_Camera.setFPS(20);

@@ -5,13 +5,14 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.Utility;
 
-public class Basic_OmniDrive extends Command {
-  public Basic_OmniDrive(){
+//Type-O Mecanum 
+public class Basic_MecanumDrive extends Command {
+  public Basic_MecanumDrive() {
     requires(Robot.m_Chassis);
   }
 
   @Override
-  protected void initialize(){
+  protected void initialize() {
   }
 
   @Override
@@ -38,23 +39,26 @@ public class Basic_OmniDrive extends Command {
       Joystick_X = RobotMap.Joystick_X_OutPutRate * -Math.pow(Math.abs(Joystick_X),RobotMap.Joystick_X_Exponential);
     }
 
-    Joystick_X = Joystick_X / Math.sqrt(2);
-    Joystick_Y = Joystick_Y / Math.sqrt(2);
+    //https://editor.p5js.org/UnreaLin/sketches/tC4rB7MPT
+    //Make sure every motor rotate direction before road test
+    //When you face output shaft, Direction must be 
+    //RF:CounterClockwise   LF:ClockWise
+    //LB:CounterClockwise   RB:Clockwise
+    //If not, Use RobotMap to adjust it
 
-    double Vector = Math.sqrt(Math.pow(Joystick_Y,2) + Math.pow(Joystick_X, 2));
+    double Vector = Math.sqrt(Math.pow(Joystick_Y,2) + Math.pow(Joystick_X,2));
     double Angle = Math.atan2(Joystick_Y,Joystick_X);
 
-    double RF = Math.sin(Angle - (Math.PI/4)) * Vector;
-    double LF = Math.sin(Angle - (Math.PI*3/4)) * Vector;
-    double LB = Math.sin(Angle - (Math.PI*5/4)) * Vector;
-    double RB = Math.sin(Angle - (Math.PI*7/4)) * Vector;
+    double RF = Vector * Math.cos(Angle - (Math.PI * 1 / 4)) / Math.sqrt(2);
+    double LF = Vector * Math.cos(Angle - (Math.PI * 3 / 4)) / Math.sqrt(2);
+    double LB = Vector * Math.cos(Angle - (Math.PI * 5 / 4)) / -Math.sqrt(2);
+    double RB = Vector * Math.cos(Angle - (Math.PI * 7 / 4)) / -Math.sqrt(2);
 
     RF = Utility.Constrain(RF, 1, -1);
     LF = Utility.Constrain(LF, 1, -1);
     LB = Utility.Constrain(LB, 1, -1);
     RF = Utility.Constrain(RF, 1, -1);
 
-    
     Robot.m_Chassis.SetSeparateSpeed(RF, LF, LB, RB);
   }
 

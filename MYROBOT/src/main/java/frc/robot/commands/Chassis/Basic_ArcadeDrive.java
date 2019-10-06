@@ -45,6 +45,7 @@ public class Basic_ArcadeDrive extends Command {
 
     Rspd = Utility.Constrain(Rspd,1,-1);
     Lspd = Utility.Constrain(Lspd,1,-1);
+    
     Robot.m_Chassis.SetSpeed(Lspd,Rspd);
   }
 
@@ -60,6 +61,6 @@ public class Basic_ArcadeDrive extends Command {
 
   @Override
   protected void interrupted(){
-    end();
+    this.end();
   }
 }
