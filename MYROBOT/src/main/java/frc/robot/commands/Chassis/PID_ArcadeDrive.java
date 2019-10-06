@@ -67,8 +67,6 @@ public class PID_ArcadeDrive extends Command {
       Joystick_X_InDeadZone = true;
     }
 
-    //System.out.println("Y:"+ Joystick_Y +"  X:" + Joystick_X);
-
     double Rspd = 0;
     double Lspd = 0;
     if(Robot.m_Oi.GetButton(RobotMap.Button_Right)){
@@ -77,16 +75,11 @@ public class PID_ArcadeDrive extends Command {
 
     if(Joystick_X_InDeadZone == true){
       if(PID1Enable){
-        //System.out.println("1");
         double Gryo = (((((Robot.m_Chassis.Get_Angle() + (360 - Gryo_HeadingAngle)) % 360) + 180) % 360) - 180);
         double Pid = PID1.PID(Gryo, RobotMap.Chassis_Kp, RobotMap.Chassis_Ki, RobotMap.Chassis_Kd);
-        //System.out.println(Gryo);
         Rspd = Joystick_Y - Pid;
         Lspd = Joystick_Y + Pid;
-        //System.out.println(Pid);
-        
       }else{
-        //System.out.println("0");
         if(PID1Enable_Timer.get() >= PID1Enable_PriviousTime + RobotMap.PIDEnable_Delay){
           PID1Enable = true;
           PID1.Init_Parameter();
@@ -96,11 +89,7 @@ public class PID_ArcadeDrive extends Command {
         Lspd = Joystick_Y;
       }
     }else{
-      //System.out.println("2");
       PID1Enable = false;
-      //PID1.Init_Parameter();
-      //Gryo_HeadingAngle = Robot.m_Chassis.Get_Angle();
-      //PID1Enable_PriviousTime = PID1Enable_Timer.get();
       Rspd = Joystick_Y - Joystick_X;
       Lspd = Joystick_Y + Joystick_X;
     }
@@ -108,42 +97,9 @@ public class PID_ArcadeDrive extends Command {
     Rspd = Utility.Constrain(Rspd, 1, -1);
     Lspd = Utility.Constrain(Lspd, 1, -1);
 
-    System.out.println("Rspd:"+Rspd+"  Lspd"+Lspd);
     Robot.m_Chassis.SetSpeed(Lspd,Rspd);
-    /*
-    double Rspd = 0.0;
-    double Lspd = 0.0;
-
-    
-    if(Math.abs(Joystick_Y) < RobotMap.Joystick_DeadZone){
-      Joystick_Y = 0;
-    }
-    if(Math.abs(Joystick_X) < RobotMap.Joystick_DeadZone){
-      Robot.m_oi.SetRumble(0);
-      Robot.m_Chassis.EnablePID();
-      Joystick_X = 0;
-      double gryo = Robot.m_Chassis.ReadNowAngle(Robot.m_Chassis.ReadAngle());
-      double pid = Robot.m_Chassis.PID(gryo, RobotMap.Chassis_Kp, RobotMap.Chassis_Ki,RobotMap.Chassis_Kd);
-      Rspd = Joystick_Y + pid;
-      Lspd = Joystick_Y - pid;
-    }else{
-      Robot.m_oi.SetRumble(Math.abs(Joystick_X));
-      Rspd = Joystick_Y + Joystick_X;
-      Lspd = Joystick_Y - Joystick_X;
-      Robot.m_Chassis.DisablePID();
-      Robot.m_Chassis.SetInitPIDVariable();
-    }
-    Rspd = Useful.Constrain(Rspd,1,-1);
-    Lspd = Useful.Constrain(Lspd,1,-1);
-    //System.out.println(Lspd + "  " + Rspd);
-    if(Robot.m_oi.GetAxis(RobotMap.Axis_LT) > 0.75){
-      Robot.m_Chassis.SetSpeed(-Lspd*0.5,Rspd*0.5);
-    }else{
-      Robot.m_Chassis.SetSpeed(-Lspd,Rspd);
-    }
-  
-  */
   }
+  
   @Override
   protected boolean isFinished() {
     return false;

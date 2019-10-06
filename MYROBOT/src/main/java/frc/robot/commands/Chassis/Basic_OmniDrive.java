@@ -3,6 +3,7 @@ package frc.robot.commands.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.Utility;
 
 public class Basic_OmniDrive extends Command {
   public Basic_OmniDrive(){
@@ -48,10 +49,12 @@ public class Basic_OmniDrive extends Command {
     double LB = Math.sin(Angle - (Math.PI*5/4)) * Vector;
     double RB = Math.sin(Angle - (Math.PI*7/4)) * Vector;
 
-    //System.out.println("LF:"+ LF + "  " + "RF:" + RF);
-    //System.out.println("LB:"+ LB + "  " + "RB:" + RB);
-    //System.out.println("////////////////////");
+    RF = Utility.Constrain(RF, 1, -1);
+    LF = Utility.Constrain(LF, 1, -1);
+    LB = Utility.Constrain(LB, 1, -1);
+    RF = Utility.Constrain(RF, 1, -1);
 
+    
     Robot.m_Chassis.SetSeparateSpeed(RF, LF, LB, RB);
   }
 
@@ -60,14 +63,13 @@ public class Basic_OmniDrive extends Command {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_Chassis.SetSeparateSpeed(0, 0, 0, 0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    this.end();
   }
 }
