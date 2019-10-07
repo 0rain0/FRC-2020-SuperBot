@@ -1,12 +1,22 @@
 package frc.robot.commands.Chassis;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.Utility;
+import frc.robot.systems.PID_System;
 
-//Type-O Mecanum 
-public class Basic_MecanumDrive extends Command {
+//// Still Testing ////
+public class PID_MecanumDrive extends Command {
+  public PID_System PID1 = new PID_System();
+  public Timer PID1Enable_Timer = new Timer();
+
+  double PID1Enable_PriviousTime = 0;
+  boolean PID1Enable = true;
+
+  double Gryo_HeadingAngle = 0;
+  
   boolean Joystick_LX_Invert = false;
   double Joystick_LX_OutPutRate = 1;
   double Joystick_LX_Exponential = 2;
@@ -21,14 +31,23 @@ public class Basic_MecanumDrive extends Command {
 
   double Joystick_DeadZone = 0.2;
 
-  public Basic_MecanumDrive() {
+  public PID_MecanumDrive() {
     requires(Robot.m_Chassis);
+    PID1.Init();
+    PID1.Enable_PID(true);
+    PID1.Enable_AntiWindUp(true, 1);
+    PID1.Enable_AutoStop(false, 0, 0);
+    PID1.Enable_TimeOut(false, 0);
+
+    PID1Enable_Timer.reset();
+    PID1Enable_Timer.start();
   }
 
   @Override
   protected void initialize() {
+    Gryo_HeadingAngle = Robot.m_Chassis.Get_Angle();
   }
-
+  
   @Override
   protected void execute() {
     double Joystick_LY = Robot.m_Oi.GetAxis(RobotMap.Joystick_LY);
@@ -85,19 +104,51 @@ public class Basic_MecanumDrive extends Command {
     double Vector = Math.sqrt(Math.pow(Joystick_LY,2) + Math.pow(Joystick_LX,2));
     double Angle = Math.atan2(Joystick_LY,Joystick_LX);
 
-    double RF = Vector * Math.cos(Angle - (Math.PI * 1 / 4)) / Math.sqrt(2) - Joystick_RX;
-    double LF = Vector * Math.cos(Angle - (Math.PI * 3 / 4)) / Math.sqrt(2) + Joystick_RX;
-    double LB = Vector * Math.cos(Angle - (Math.PI * 5 / 4)) / -Math.sqrt(2) + Joystick_RX;
-    double RB = Vector * Math.cos(Angle - (Math.PI * 7 / 4)) / -Math.sqrt(2) - Joystick_RX;
+    double RF = 0;
+    double LF = 0;
+    double LB = 0;
+    double RB = 0;
+
+    if(Robot.m_Oi.GetButton(RobotMap.Button_Right)){
+      Gryo_HeadingAngle = Robot.m_Chassis.Get_Angle();
+    }
+
+    if(Joystick_LX_InDeadZone == true){
+      if(PID1Enable){
+        double Gryo = (((((Robot.m_Chassis.Get_Angle() + (360 - Gryo_HeadingAngle)) % 360) + 180) % 360) - 180);
+        double Pid = PID1.PID(Gryo, RobotMap.Chassis_Kp, RobotMap.Chassis_Ki, RobotMap.Chassis_Kd);
+        RF = Vector * Math.cos(Angle - (Math.PI * 1 / 4)) / Math.sqrt(2) - Pid;
+        LF = Vector * Math.cos(Angle - (Math.PI * 3 / 4)) / Math.sqrt(2) + Pid;
+        LB = Vector * Math.cos(Angle - (Math.PI * 5 / 4)) / -Math.sqrt(2) + Pid;
+        RB = Vector * Math.cos(Angle - (Math.PI * 7 / 4)) / -Math.sqrt(2) - Pid;
+      }else{
+        if(PID1Enable_Timer.get() >= PID1Enable_PriviousTime + RobotMap.PIDEnable_Delay){
+          PID1Enable = true;
+          PID1.Init_Parameter();
+          Gryo_HeadingAngle = Robot.m_Chassis.Get_Angle();
+        }
+        RF = Vector * Math.cos(Angle - (Math.PI * 1 / 4)) / Math.sqrt(2);
+        LF = Vector * Math.cos(Angle - (Math.PI * 3 / 4)) / Math.sqrt(2);
+        LB = Vector * Math.cos(Angle - (Math.PI * 5 / 4)) / -Math.sqrt(2);
+        RB = Vector * Math.cos(Angle - (Math.PI * 7 / 4)) / -Math.sqrt(2);
+      }
+    }else{
+      PID1Enable = false;
+      PID1Enable_PriviousTime = PID1Enable_Timer.get();
+      RF = Vector * Math.cos(Angle - (Math.PI * 1 / 4)) / Math.sqrt(2) - Joystick_RX;
+      LF = Vector * Math.cos(Angle - (Math.PI * 3 / 4)) / Math.sqrt(2) + Joystick_RX;
+      LB = Vector * Math.cos(Angle - (Math.PI * 5 / 4)) / -Math.sqrt(2) + Joystick_RX;
+      RB = Vector * Math.cos(Angle - (Math.PI * 7 / 4)) / -Math.sqrt(2) - Joystick_RX;
+    }
 
     RF = Utility.Constrain(RF, 1, -1);
     LF = Utility.Constrain(LF, 1, -1);
     LB = Utility.Constrain(LB, 1, -1);
     RF = Utility.Constrain(RF, 1, -1);
 
-    Robot.m_Chassis.SetSeparateSpeed(RF, LF, LB, RB);
+    Robot.m_Chassis.SetSeparateSpeed(RF,LF,RB,LB);
   }
-
+  
   @Override
   protected boolean isFinished() {
     return false;

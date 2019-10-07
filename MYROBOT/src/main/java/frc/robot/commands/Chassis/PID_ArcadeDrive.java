@@ -36,7 +36,6 @@ public class PID_ArcadeDrive extends Command {
   
   @Override
   protected void execute() {
-    
     double Joystick_Y = Robot.m_Oi.GetAxis(RobotMap.Joystick_LY);
     double Joystick_X = Robot.m_Oi.GetAxis(RobotMap.Joystick_RX);
     boolean Joystick_Y_InDeadZone = false;
@@ -90,6 +89,7 @@ public class PID_ArcadeDrive extends Command {
       }
     }else{
       PID1Enable = false;
+      PID1Enable_PriviousTime = PID1Enable_Timer.get();
       Rspd = Joystick_Y - Joystick_X;
       Lspd = Joystick_Y + Joystick_X;
     }
