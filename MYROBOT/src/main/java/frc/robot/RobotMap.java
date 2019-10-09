@@ -1,7 +1,7 @@
 package frc.robot;
 
 public class RobotMap {
-  ////Chassis Setting////
+  //// Chassis Setting ////
   public final static byte Motor_RA = 3;
   public final static byte Motor_RB = 4;
   public final static byte Motor_LA = 1;
@@ -16,8 +16,7 @@ public class RobotMap {
   public final static double Chassis_Ki = 0.0;
   public final static double Chassis_Kd = 0.05;
   
-  
-  ////Cargo Setting////
+  //// Cargo Setting ////
   public final static byte Intake_Motor_R = 11;
   public final static byte Intake_Motor_L = 12;
   public final static byte Intake_Motor_Pitch = 13;
@@ -30,7 +29,7 @@ public class RobotMap {
   public final static int Encoder_Pitch_DIOB = 8;
   public final static boolean Encoder_Pitch_Invert = false;
 
-  ////Panel Setting////
+  //// Panel Setting ////
   public final static byte Panel_Motor = 0;
   public final static boolean Panel_Motor_Invert = true;
   public final static double PanelPowerPercentage = 0.65;
@@ -42,18 +41,27 @@ public class RobotMap {
   public final static double Panel_Ki = 0.000;
   public final static double Panel_Kd = 0;
 
-
-  ////Controller Setting////
+  //// Controller Setting ////
   public final static byte Joystick_Port = 0;
-  /*
+
   public final static double Joystick_DeadZone = 0.2;
-  public final static boolean Joystick_Y_Invert = true;
-  public final static boolean Joystick_X_Invert = false;
-  public final static double Joystick_Y_Exponential = 2;
-  public final static double Joystick_X_Exponential = 2;
-  public final static double Joystick_Y_OutPutRate = 1;
-  public final static double Joystick_X_OutPutRate = 0.7;
-  */
+  
+  public final static boolean Joystick_LY_Invert = false;
+  public final static double Joystick_LY_OutPutRate = 1;
+  public final static double Joystick_LY_Exponential = 2;
+
+  public final static boolean Joystick_LX_Invert = false;
+  public final static double Joystick_LX_OutPutRate = 1;
+  public final static double Joystick_LX_Exponential = 2;
+
+  public final static boolean Joystick_RY_Invert = false;
+  public final static double Joystick_RY_OutPutRate = 1;
+  public final static double Joystick_RY_Exponential = 2;
+
+  public final static boolean Joystick_RX_Invert = false;
+  public final static double Joystick_RX_OutPutRate = 0.5;
+  public final static double Joystick_RX_Exponential = 2;
+  
   public final static byte Button_Down = 1; //A-YELLOW
   public final static byte Button_Right = 2;//B-RED
   public final static byte Button_Left = 3;//X-BLUE
@@ -70,7 +78,4 @@ public class RobotMap {
   public final static byte Joystick_LY = 1;
   public final static byte Joystick_RX = 4;
   public final static byte Joystick_RY = 5;
-  
-  ////Debug Setting////
-  public static boolean GryoDebug = false;
 }

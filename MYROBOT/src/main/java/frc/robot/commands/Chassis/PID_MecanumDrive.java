@@ -16,21 +16,6 @@ public class PID_MecanumDrive extends Command {
   boolean PID1Enable = true;
 
   double Gryo_HeadingAngle = 0;
-  
-  boolean Joystick_LX_Invert = false;
-  double Joystick_LX_OutPutRate = 1;
-  double Joystick_LX_Exponential = 2;
-
-  boolean Joystick_LY_Invert = false;
-  double Joystick_LY_OutPutRate = 1;
-  double Joystick_LY_Exponential = 2;
-
-  boolean Joystick_RX_Invert = false;
-  double Joystick_RX_OutPutRate = 1;
-  double Joystick_RX_Exponential = 2;
-
-  double Joystick_DeadZone = 0.2;
-
   public PID_MecanumDrive() {
     requires(Robot.m_Chassis);
     PID1.Init();
@@ -58,37 +43,37 @@ public class PID_MecanumDrive extends Command {
     boolean Joystick_LX_InDeadZone = false;
     boolean Joystick_RX_InDeadZone = false;
 
-    if(Joystick_LY_Invert){
+    if(RobotMap.Joystick_LY_Invert){
       Joystick_LY = Joystick_LY * -1;
     }
-    if(Joystick_LX_Invert){
+    if(RobotMap.Joystick_LX_Invert){
       Joystick_LX = Joystick_LX * -1;
     }
-    if(Joystick_RX_Invert){
+    if(RobotMap.Joystick_RX_Invert){
       Joystick_RX = Joystick_RX * -1;
     }
 
     //https://www.desmos.com/calculator/epgkans3c0
-    if(Joystick_LY >= Joystick_DeadZone && Joystick_LY <= 1){
-      Joystick_LY = Joystick_LY_OutPutRate * Math.pow(Math.abs(Joystick_LY),Joystick_LY_Exponential);
-    }else if(Joystick_LY <= -Joystick_DeadZone && Joystick_LY >= -1){
-      Joystick_LY = Joystick_LY_OutPutRate * -Math.pow(Math.abs(Joystick_LY),Joystick_LY_Exponential);
+    if(Joystick_LY >= RobotMap.Joystick_DeadZone && Joystick_LY <= 1){
+      Joystick_LY = RobotMap.Joystick_LY_OutPutRate * Math.pow(Math.abs(Joystick_LY),RobotMap.Joystick_LY_Exponential);
+    }else if(Joystick_LY <= -RobotMap.Joystick_DeadZone && Joystick_LY >= -1){
+      Joystick_LY = RobotMap.Joystick_LY_OutPutRate * -Math.pow(Math.abs(Joystick_LY),RobotMap.Joystick_LY_Exponential);
     }else{
       Joystick_LY = 0;
       Joystick_LY_InDeadZone = true;
     }
-    if(Joystick_LX >= Joystick_DeadZone && Joystick_LX <= 1){
-      Joystick_LX = Joystick_LX_OutPutRate * Math.pow(Math.abs(Joystick_LX),Joystick_LX_Exponential);
-    }else if(Joystick_LX <= -Joystick_DeadZone && Joystick_LX >= -1){
-      Joystick_LX = Joystick_LX_OutPutRate * -Math.pow(Math.abs(Joystick_LX),Joystick_LX_Exponential);
+    if(Joystick_LX >= RobotMap.Joystick_DeadZone && Joystick_LX <= 1){
+      Joystick_LX = RobotMap.Joystick_LX_OutPutRate * Math.pow(Math.abs(Joystick_LX),RobotMap.Joystick_LX_Exponential);
+    }else if(Joystick_LX <= -RobotMap.Joystick_DeadZone && Joystick_LX >= -1){
+      Joystick_LX = RobotMap.Joystick_LX_OutPutRate * -Math.pow(Math.abs(Joystick_LX),RobotMap.Joystick_LX_Exponential);
     }else{
       Joystick_LX = 0;
       Joystick_LX_InDeadZone = true;
     }
-    if(Joystick_RX >= Joystick_DeadZone && Joystick_RX <= 1){
-      Joystick_RX = Joystick_RX_OutPutRate * Math.pow(Math.abs(Joystick_RX),Joystick_RX_Exponential);
-    }else if(Joystick_RX <= -Joystick_DeadZone && Joystick_RX >= -1){
-      Joystick_RX = Joystick_RX_OutPutRate * -Math.pow(Math.abs(Joystick_RX),Joystick_RX_Exponential);
+    if(Joystick_RX >= RobotMap.Joystick_DeadZone && Joystick_RX <= 1){
+      Joystick_RX = RobotMap.Joystick_RX_OutPutRate * Math.pow(Math.abs(Joystick_RX),RobotMap.Joystick_RX_Exponential);
+    }else if(Joystick_RX <= -RobotMap.Joystick_DeadZone && Joystick_RX >= -1){
+      Joystick_RX = RobotMap.Joystick_RX_OutPutRate * -Math.pow(Math.abs(Joystick_RX),RobotMap.Joystick_RX_Exponential);
     }else{
       Joystick_RX = 0;
       Joystick_RX_InDeadZone = true;
