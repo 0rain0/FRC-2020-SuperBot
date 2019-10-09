@@ -35,10 +35,6 @@ public class Basic_MecanumDrive extends Command {
     double Joystick_LX = Robot.m_Oi.GetAxis(RobotMap.Joystick_LX);
     double Joystick_RX = Robot.m_Oi.GetAxis(RobotMap.Joystick_RX);
 
-    boolean Joystick_LY_InDeadZone = false;
-    boolean Joystick_LX_InDeadZone = false;
-    boolean Joystick_RX_InDeadZone = false;
-
     if(Joystick_LY_Invert){
       Joystick_LY = Joystick_LY * -1;
     }
@@ -50,29 +46,22 @@ public class Basic_MecanumDrive extends Command {
     }
 
     //https://www.desmos.com/calculator/epgkans3c0
-    if(Joystick_LY >= Joystick_DeadZone && Joystick_LY <= 1){
+    if(Joystick_LY > 0 && Joystick_LY <= 1){
       Joystick_LY = Joystick_LY_OutPutRate * Math.pow(Math.abs(Joystick_LY),Joystick_LY_Exponential);
-    }else if(Joystick_LY <= -Joystick_DeadZone && Joystick_LY >= -1){
+    }else if(Joystick_LY < 0 && Joystick_LY >= -1){
       Joystick_LY = Joystick_LY_OutPutRate * -Math.pow(Math.abs(Joystick_LY),Joystick_LY_Exponential);
-    }else{
-      Joystick_LY = 0;
-      Joystick_LY_InDeadZone = true;
     }
-    if(Joystick_LX >= Joystick_DeadZone && Joystick_LX <= 1){
+
+    if(Joystick_LX > 0 && Joystick_LX <= 1){
       Joystick_LX = Joystick_LX_OutPutRate * Math.pow(Math.abs(Joystick_LX),Joystick_LX_Exponential);
-    }else if(Joystick_LX <= -Joystick_DeadZone && Joystick_LX >= -1){
+    }else if(Joystick_LX < 0 && Joystick_LX >= -1){
       Joystick_LX = Joystick_LX_OutPutRate * -Math.pow(Math.abs(Joystick_LX),Joystick_LX_Exponential);
-    }else{
-      Joystick_LX = 0;
-      Joystick_LX_InDeadZone = true;
     }
-    if(Joystick_RX >= Joystick_DeadZone && Joystick_RX <= 1){
+    
+    if(Joystick_RX > 0 && Joystick_RX <= 1){
       Joystick_RX = Joystick_RX_OutPutRate * Math.pow(Math.abs(Joystick_RX),Joystick_RX_Exponential);
-    }else if(Joystick_RX <= -Joystick_DeadZone && Joystick_RX >= -1){
+    }else if(Joystick_RX < 0 && Joystick_RX >= -1){
       Joystick_RX = Joystick_RX_OutPutRate * -Math.pow(Math.abs(Joystick_RX),Joystick_RX_Exponential);
-    }else{
-      Joystick_RX = 0;
-      Joystick_RX_InDeadZone = true;
     }
 
     //https://editor.p5js.org/UnreaLin/sketches/tC4rB7MPT

@@ -45,6 +45,7 @@ public class RobotMap {
 
   ////Controller Setting////
   public final static byte Joystick_Port = 0;
+  /*
   public final static double Joystick_DeadZone = 0.2;
   public final static boolean Joystick_Y_Invert = true;
   public final static boolean Joystick_X_Invert = false;
@@ -52,6 +53,7 @@ public class RobotMap {
   public final static double Joystick_X_Exponential = 2;
   public final static double Joystick_Y_OutPutRate = 1;
   public final static double Joystick_X_OutPutRate = 0.7;
+  */
   public final static byte Button_Down = 1; //A-YELLOW
   public final static byte Button_Right = 2;//B-RED
   public final static byte Button_Left = 3;//X-BLUE

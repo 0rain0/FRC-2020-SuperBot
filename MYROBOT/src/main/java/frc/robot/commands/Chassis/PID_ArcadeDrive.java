@@ -17,6 +17,16 @@ public class PID_ArcadeDrive extends Command {
 
   double Gryo_HeadingAngle = 0;
 
+  boolean Joystick_LY_Invert = false;
+  double Joystick_LY_OutPutRate = 1;
+  double Joystick_LY_Exponential = 2;
+
+  boolean Joystick_RX_Invert = false;
+  double Joystick_RX_OutPutRate = 1;
+  double Joystick_RX_Exponential = 2;
+
+  double Joystick_DeadZone = 0.2;
+
   public PID_ArcadeDrive() {
     requires(Robot.m_Chassis);
     PID1.Init();
@@ -36,34 +46,35 @@ public class PID_ArcadeDrive extends Command {
   
   @Override
   protected void execute() {
-    double Joystick_Y = Robot.m_Oi.GetAxis(RobotMap.Joystick_LY);
-    double Joystick_X = Robot.m_Oi.GetAxis(RobotMap.Joystick_RX);
-    boolean Joystick_Y_InDeadZone = false;
-    boolean Joystick_X_InDeadZone = false;
+    double Joystick_LY = Robot.m_Oi.GetAxis(RobotMap.Joystick_LY);
+    double Joystick_RX = Robot.m_Oi.GetAxis(RobotMap.Joystick_RX);
+    
+    boolean Joystick_LY_InDeadZone = false;
+    boolean Joystick_RX_InDeadZone = false;
 
-    if(RobotMap.Joystick_Y_Invert){
-      Joystick_Y = Joystick_Y * -1;
+    if(Joystick_LY_Invert){
+      Joystick_LY = Joystick_LY * -1;
     }
-    if(RobotMap.Joystick_X_Invert){
-      Joystick_X = Joystick_X * -1;
+    if(Joystick_RX_Invert){
+      Joystick_RX = Joystick_RX * -1;
     }
 
     //https://www.desmos.com/calculator/epgkans3c0
-    if(Joystick_Y >= RobotMap.Joystick_DeadZone && Joystick_Y <= 1){
-      Joystick_Y = RobotMap.Joystick_Y_OutPutRate * Math.pow(Math.abs(Joystick_Y),RobotMap.Joystick_Y_Exponential);
-    }else if(Joystick_Y <= -RobotMap.Joystick_DeadZone && Joystick_Y >= -1){
-      Joystick_Y = RobotMap.Joystick_Y_OutPutRate * -Math.pow(Math.abs(Joystick_Y),RobotMap.Joystick_Y_Exponential);
+    if(Joystick_LY >= Joystick_DeadZone && Joystick_LY <= 1){
+      Joystick_LY = Joystick_LY_OutPutRate * Math.pow(Math.abs(Joystick_LY),Joystick_LY_Exponential);
+    }else if(Joystick_LY <= -Joystick_DeadZone && Joystick_LY >= -1){
+      Joystick_LY = Joystick_LY_OutPutRate * -Math.pow(Math.abs(Joystick_LY),Joystick_LY_Exponential);
     }else{
-      Joystick_Y = 0;
-      Joystick_Y_InDeadZone = true;
+      Joystick_LY = 0;
+      Joystick_LY_InDeadZone = true;
     }
-    if(Joystick_X >= RobotMap.Joystick_DeadZone && Joystick_X <= 1){
-      Joystick_X = RobotMap.Joystick_X_OutPutRate * Math.pow(Math.abs(Joystick_X),RobotMap.Joystick_X_Exponential);
-    }else if(Joystick_X <= -RobotMap.Joystick_DeadZone && Joystick_X >= -1){
-      Joystick_X = RobotMap.Joystick_X_OutPutRate * -Math.pow(Math.abs(Joystick_X),RobotMap.Joystick_X_Exponential);
+    if(Joystick_RX >= Joystick_DeadZone && Joystick_RX <= 1){
+      Joystick_RX = Joystick_RX_OutPutRate * Math.pow(Math.abs(Joystick_RX),Joystick_RX_Exponential);
+    }else if(Joystick_RX <= -Joystick_DeadZone && Joystick_RX >= -1){
+      Joystick_RX = Joystick_RX_OutPutRate * -Math.pow(Math.abs(Joystick_RX),Joystick_RX_Exponential);
     }else{
-      Joystick_X = 0;
-      Joystick_X_InDeadZone = true;
+      Joystick_RX = 0;
+      Joystick_RX_InDeadZone = true;
     }
 
     double Rspd = 0;
@@ -72,26 +83,26 @@ public class PID_ArcadeDrive extends Command {
       Gryo_HeadingAngle = Robot.m_Chassis.Get_Angle();
     }
 
-    if(Joystick_X_InDeadZone == true){
+    if(Joystick_RX_InDeadZone == true){
       if(PID1Enable){
         double Gryo = (((((Robot.m_Chassis.Get_Angle() + (360 - Gryo_HeadingAngle)) % 360) + 180) % 360) - 180);
         double Pid = PID1.PID(Gryo, RobotMap.Chassis_Kp, RobotMap.Chassis_Ki, RobotMap.Chassis_Kd);
-        Rspd = Joystick_Y - Pid;
-        Lspd = Joystick_Y + Pid;
+        Rspd = Joystick_LY - Pid;
+        Lspd = Joystick_LY + Pid;
       }else{
         if(PID1Enable_Timer.get() >= PID1Enable_PriviousTime + RobotMap.PIDEnable_Delay){
           PID1Enable = true;
           PID1.Init_Parameter();
           Gryo_HeadingAngle = Robot.m_Chassis.Get_Angle();
         }
-        Rspd = Joystick_Y;
-        Lspd = Joystick_Y;
+        Rspd = Joystick_LY;
+        Lspd = Joystick_LY;
       }
     }else{
       PID1Enable = false;
       PID1Enable_PriviousTime = PID1Enable_Timer.get();
-      Rspd = Joystick_Y - Joystick_X;
-      Lspd = Joystick_Y + Joystick_X;
+      Rspd = Joystick_LY - Joystick_RX;
+      Lspd = Joystick_LY + Joystick_RX;
     }
 
     Rspd = Utility.Constrain(Rspd, 1, -1);

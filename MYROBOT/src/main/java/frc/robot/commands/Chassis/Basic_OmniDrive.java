@@ -5,7 +5,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.Utility;
 
-//// Still Testing ////
+////Not Finished And Still Testing ////
 public class Basic_OmniDrive extends Command {
   public Basic_OmniDrive(){
     requires(Robot.m_Chassis);
@@ -17,9 +17,11 @@ public class Basic_OmniDrive extends Command {
 
   @Override
   protected void execute() {
+    /*
     double Joystick_Y = Robot.m_Oi.GetAxis(RobotMap.Joystick_LY);
     double Joystick_X = Robot.m_Oi.GetAxis(RobotMap.Joystick_RX);
 
+    
     if(RobotMap.Joystick_Y_Invert){
       Joystick_Y = Joystick_Y * -1;
     }
@@ -57,6 +59,7 @@ public class Basic_OmniDrive extends Command {
 
     
     Robot.m_Chassis.SetSeparateSpeed(RF, LF, LB, RB);
+    */
   }
 
   @Override
